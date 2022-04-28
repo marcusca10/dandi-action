@@ -24,7 +24,9 @@ async function run() {
     const nonInclusiveTerms = await getNonInclusiveTerms();
 
     // list all files in the directory
-    var filenames = await getFilesFromDirectory(dir);
+    var filenames = getFilesFromDirectory(dir);
+
+    console.log(filenames);
 
     filenames.forEach(filename => {
       console.log(`Scanning file: ${filename}`);

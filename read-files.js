@@ -1,24 +1,38 @@
-const fs = require('fs/promises');
+const fs = require('fs');
 const path = require('path');
 
-const EXCLUSIONS = [];
+const EXCLUSIONS = [".git", "node_modules"];
 
-async function getFilesFromDirectory(directoryPath) {
+function isExcluded(file) {
+    var exclude = false;
 
-    const filesInDirectory = await fs.readdir(directoryPath);
-    const files = await Promise.all(
-        filesInDirectory.map(async (file) => {
+    EXCLUSIONS.forEach(exclusion => {
+        if (file.endsWith(exclusion))
+            exclude = true;
+    });
+
+    return exclude;
+}
+
+function getFilesFromDirectory(directoryPath) {
+
+    var filesArray = [];
+    if (!isExcluded(directoryPath)) {
+        const filesInDirectory = fs.readdirSync(directoryPath);
+
+        filesInDirectory.map((file) => {
             const filePath = path.join(directoryPath, file);
-            const stats = await fs.stat(filePath);
-            
+            const stats = fs.statSync(filePath);
             if (stats.isDirectory()) {
-                return getFilesFromDirectory(filePath);
+                getFilesFromDirectory(filePath).map((rfile)=> { filesArray.push(rfile) });
             } else {
-                return filePath;
+                filesArray.push(filePath);
             }
         })
-    );
-    return files.map((file) => file); // return with empty arrays removed
+
+    }
+
+    return filesArray;
 }
 
 module.exports = getFilesFromDirectory;
