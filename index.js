@@ -33,9 +33,9 @@ async function run() {
         }
 
         // files object contains all files names
-        // log them on console
         files.forEach(file => {
-            console.log(file);
+          // log them on console
+          console.log(file);
         });
     });
 
