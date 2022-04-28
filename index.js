@@ -1,5 +1,5 @@
 const getNonInclusiveTerms = require("./non-inclusive-terms");
-const readFilles = require("./read-files");
+const readFiles = require("./read-files");
 
 const core = require('@actions/core');
 const github = require('@actions/github');
