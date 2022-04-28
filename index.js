@@ -27,7 +27,7 @@ async function run() {
     });
 
     // list all files in the directory
-    fs.readdir(dir, (err, files) => {
+    await fs.readdir(dir, (err, files) => {
         if (err) {
             throw err;
         }
