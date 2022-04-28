@@ -1,5 +1,6 @@
 const getNonInclusiveTerms = require("./non-inclusive-terms");
-const readFiles = require("./read-files");
+const getFilesFromDirectory = require("./read-files");
+const checkFileForPhrase = require("./file-content");
 
 const core = require('@actions/core');
 const github = require('@actions/github');
@@ -15,32 +16,35 @@ async function run() {
     core.setOutput("time", time);
 
 
+    var passed = true;
 
-    const workspace = process.env.GITHUB_WORKSPACE;
-    console.log(`Workspace.: ${workspace}`);
-    const dir = `${workspace}/`;
-
-
+    const dir = `${process.env.GITHUB_WORKSPACE}/`;
+    
     const nonInclusiveTerms = await getNonInclusiveTerms();
-    nonInclusiveTerms.forEach(phrase => {
-
-      console.log(phrase.term);
-    });
 
     // list all files in the directory
-    readFiles(dir, function(filename, content) {
-      console.log(filename);
-      // var newcontent=content.replace(/\n"\nauthor/,"\nauthor");
-      //var newcontent=content.replace(/title:\s*"([^"]*)\nauthor/,"title: \"$1\"\nauthor");
-    }, function(err) {
-        throw err;
+    var filenames = await getFilesFromDirectory(dir);
+
+    filenames.forEach(filename => {
+      console.log(`Scanning file: ${filename}`);
+      
+      nonInclusiveTerms.forEach(phrase => {
+        var lines = checkFileForPhrase(filename, phrase.term);
+
+        if (lines.length > 0) {
+          // The Action should fail
+          passed = false;
+
+          console.log(`Found the term '${phrase.term}', consider using alternatives: ${phrase.alternatives}`);
+          lines.forEach(line => {
+            console.log(`\t[Line ${line.number}] ${line.content}`);
+          });
+        }
+      });
     });
 
-
-
-    // Get the JSON webhook payload for the event that triggered the workflow
-    const payload = JSON.stringify(github.context.payload, undefined, 2)
-    console.log(`The event payload: ${payload}`);
+    if (!passed)
+      core.setFailed("Found non inclusive terms in some files.");
 
   } catch (error) {
     core.setFailed(error.message);

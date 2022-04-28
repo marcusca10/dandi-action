@@ -1,21 +1,22 @@
-var fs = require('fs');
+const fs = require('fs/promises');
+const path = require('path');
 
-function readFiles(dirname, onFileContent, onError) {
-  fs.readdir(dirname, function(err, filenames) {
-    if (err) {
-      onError(err);
-      return;
-    }
-    filenames.forEach(function(filename) {
-      fs.readFile(dirname + filename, 'utf-8', function(err, content) {
-        if (err) {
-          onError(err);
-          return;
-        }
-        onFileContent(filename, content);
-      });
-    });
-  });
+async function getFilesFromDirectory(directoryPath) {
+
+    const filesInDirectory = await fs.readdir(directoryPath);
+    const files = await Promise.all(
+        filesInDirectory.map(async (file) => {
+            const filePath = path.join(directoryPath, file);
+            const stats = await fs.stat(filePath);
+            
+            if (stats.isDirectory()) {
+                return getFilesFromDirectory(filePath);
+            } else {
+                return filePath;
+            }
+        })
+    );
+    return files.map((file) => file); // return with empty arrays removed
 }
 
-module.exports = readFiles;
+module.exports = getFilesFromDirectory;
