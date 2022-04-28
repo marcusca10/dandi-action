@@ -1,5 +1,5 @@
 //const request = require("request-promise");
-const data = require("data.json");
+const data = require("./data.json");
 
 //const options = {
 //  method: "GET",
