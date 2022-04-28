@@ -18,8 +18,8 @@ async function run() {
 
     var passed = true;
 
-    //const dir = `${process.env.GITHUB_WORKSPACE}/`;
-    const dir = `c:\\temp`;
+    const dir = process.env.GITHUB_WORKSPACE;
+    //const dir = `c:\\temp`;
     
     const nonInclusiveTerms = await getNonInclusiveTerms();
 
