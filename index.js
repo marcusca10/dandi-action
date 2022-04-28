@@ -25,7 +25,6 @@ async function run() {
       console.log(phrase.term);
     });
 
-
     // list all files in the directory
     fs.readdir(workspace, (err, files) => {
         if (err) {
