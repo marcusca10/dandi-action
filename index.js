@@ -14,9 +14,9 @@ async function run() {
     core.setOutput("time", time);
 
 
-    
+
     const workspace = process.env.GITHUB_WORKSPACE;
-    console.log(`Workspace: ${workspace}!`);
+    console.log(`Workspace: ${workspace}`);
     //const dir = `${workspace}`;
 
 
