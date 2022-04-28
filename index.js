@@ -14,6 +14,7 @@ async function run() {
     core.setOutput("time", time);
 
 
+    
     const workspace = process.env.GITHUB_WORKSPACE;
     console.log(`Workspace: ${workspace}!`);
     //const dir = `${workspace}`;
@@ -37,6 +38,7 @@ async function run() {
             console.log(file);
         });
     });
+
 
 
     // Get the JSON webhook payload for the event that triggered the workflow
