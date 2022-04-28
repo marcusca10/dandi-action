@@ -8590,6 +8590,41 @@ function wrappy (fn, cb) {
 
 /***/ }),
 
+/***/ 673:
+/***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
+
+//const request = require("request-promise");
+const data = __nccwpck_require__(4427);
+
+//const options = {
+//  method: "GET",
+//  uri: "https://icanhazdadjoke.com/",
+//  headers: {
+//    Accept: "application/json",
+//    "User-Agent":
+//      "Writing JavaScript action GitHub Learning Lab course.  Visit lab.github.com or to contact us."
+//  },
+//  json: true
+//};
+
+async function getNonInclusiveTerms() {
+  //const res = await request(options);
+  //return res.joke;
+  return data;
+}
+
+module.exports = getNonInclusiveTerms;
+
+/***/ }),
+
+/***/ 4427:
+/***/ ((module) => {
+
+module.exports = eval("require")("data.json");
+
+
+/***/ }),
+
 /***/ 9217:
 /***/ ((module) => {
 
@@ -8759,21 +8794,57 @@ module.exports = JSON.parse('[[[0,44],"disallowed_STD3_valid"],[[45,46],"valid"]
 var __webpack_exports__ = {};
 // This entry need to be wrapped in an IIFE because it need to be isolated against other modules in the chunk.
 (() => {
+const getNonInclusiveTerms = __nccwpck_require__(673);
+
 const core = __nccwpck_require__(8021);
 const github = __nccwpck_require__(4366);
 
-try {
-  // `who-to-greet` input defined in action metadata file
-  const nameToGreet = core.getInput('who-to-greet');
-  console.log(`Hello ${nameToGreet}!`);
-  const time = (new Date()).toTimeString();
-  core.setOutput("time", time);
-  // Get the JSON webhook payload for the event that triggered the workflow
-  const payload = JSON.stringify(github.context.payload, undefined, 2)
-  console.log(`The event payload: ${payload}`);
-} catch (error) {
-  core.setFailed(error.message);
+const fs = __nccwpck_require__(7147);
+
+async function run() { 
+  try {
+    // `who-to-greet` input defined in action metadata file
+    const nameToGreet = core.getInput('who-to-greet');
+    console.log(`Hello ${nameToGreet}!`);
+    const time = (new Date()).toTimeString();
+    core.setOutput("time", time);
+
+
+    const workspace = process.env.GITHUB_WORKSPACE;
+    //const dir = `${workspace}`;
+
+
+    const nonInclusiveTerms = await getNonInclusiveTerms();
+    nonInclusiveTerms.forEach(phrase => {
+
+      console.log(phrase.term);
+    });
+
+
+    // list all files in the directory
+    fs.readdir(workspace, (err, files) => {
+        if (err) {
+            throw err;
+        }
+
+        // files object contains all files names
+        // log them on console
+        files.forEach(file => {
+            console.log(file);
+        });
+    });
+
+
+    // Get the JSON webhook payload for the event that triggered the workflow
+    const payload = JSON.stringify(github.context.payload, undefined, 2)
+    console.log(`The event payload: ${payload}`);
+
+  } catch (error) {
+    core.setFailed(error.message);
+  }
 }
+
+run();
 })();
 
 module.exports = __webpack_exports__;
