@@ -10,7 +10,7 @@ jobs:
         
       - name: Hello world action step
         id: hello
-        uses: marcusca10/dandi-action@v0.95.3
+        uses: marcusca10/dandi-action@v0.96.1
         with:
           who-to-greet: 'MCA'
       # Use the output from the `hello` step
