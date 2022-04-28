@@ -18,7 +18,8 @@ async function run() {
 
     var passed = true;
 
-    const dir = `${process.env.GITHUB_WORKSPACE}/`;
+    //const dir = `${process.env.GITHUB_WORKSPACE}/`;
+    const dir = `c:\\temp`;
     
     const nonInclusiveTerms = await getNonInclusiveTerms();
 
@@ -29,7 +30,7 @@ async function run() {
       console.log(`Scanning file: ${filename}`);
       
       nonInclusiveTerms.forEach(phrase => {
-        var lines = checkFileForPhrase(filename, phrase.term);
+        var lines = checkFileForPhrase(filename.toString(), phrase.term);
 
         if (lines.length > 0) {
           // The Action should fail

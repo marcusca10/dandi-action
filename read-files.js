@@ -1,6 +1,8 @@
 const fs = require('fs/promises');
 const path = require('path');
 
+const EXCLUSIONS = [];
+
 async function getFilesFromDirectory(directoryPath) {
 
     const filesInDirectory = await fs.readdir(directoryPath);
