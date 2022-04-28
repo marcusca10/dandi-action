@@ -27,7 +27,7 @@ async function run() {
     });
 
     // list all files in the directory
-    const files = await fs.readdir(dir);
+    const files = fs.readdirSync(dir);
     
     // files object contains all files names
     files.forEach(file => {
