@@ -26,7 +26,9 @@ function getFilesFromDirectory(directoryPath) {
             if (stats.isDirectory()) {
                 getFilesFromDirectory(filePath).map((rfile)=> { filesArray.push(rfile) });
             } else {
-                filesArray.push(filePath);
+                // For testing purposes - avoids breaking the workflow
+                if (!filePath.endsWith("data.json"))
+                    filesArray.push(filePath);
             }
         })
 
