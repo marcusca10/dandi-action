@@ -1,4 +1,5 @@
 const getNonInclusiveTerms = require("./non-inclusive-terms");
+const readFilles = require("./read-files");
 
 const core = require('@actions/core');
 const github = require('@actions/github');
@@ -27,27 +28,13 @@ async function run() {
     });
 
     // list all files in the directory
-    const files = fs.readdirSync(dir);
-    
-    // files object contains all files names
-    files.forEach(file => {
-      // log them on console
-      console.log(file);
+    readFiles(dir, function(filename, content) {
+      console.log(filename);
+      // var newcontent=content.replace(/\n"\nauthor/,"\nauthor");
+      //var newcontent=content.replace(/title:\s*"([^"]*)\nauthor/,"title: \"$1\"\nauthor");
+    }, function(err) {
+        throw err;
     });
-
-    // list all files in the directory
-    fs.readdir(dir, (err, files) => {
-      if (err) {
-          throw err;
-      }
-
-      // files object contains all files names
-      // log them on console
-      files.forEach(file => {
-          console.log(file);
-      });
-    });
-
 
 
 
