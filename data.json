@@ -1,6 +1,6 @@
 [
     {
-        "term": "whitelist",
+        "term": ".whitelist",
         "alternatives": [
             "allow list",
             "access list",
@@ -8,7 +8,7 @@
         ]
     },
     {
-        "term": "blacklist",
+        "term": ".blacklist",
         "alternatives": [
             "deny list",
             "blocklist",
