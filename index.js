@@ -17,7 +17,7 @@ async function run() {
 
     const workspace = process.env.GITHUB_WORKSPACE;
     console.log(`Workspace: ${workspace}`);
-    //const dir = `${workspace}`;
+    const dir = `${workspace}/`;
 
 
     const nonInclusiveTerms = await getNonInclusiveTerms();
@@ -27,7 +27,7 @@ async function run() {
     });
 
     // list all files in the directory
-    fs.readdir(workspace, (err, files) => {
+    fs.readdir(dir, (err, files) => {
         if (err) {
             throw err;
         }
