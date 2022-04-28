@@ -16,7 +16,7 @@ async function run() {
 
 
     const workspace = process.env.GITHUB_WORKSPACE;
-    console.log(`Workspace: ${workspace}`);
+    console.log(`Workspace.: ${workspace}`);
     const dir = `${workspace}/`;
 
 
@@ -27,18 +27,14 @@ async function run() {
     });
 
     // list all files in the directory
-    await fs.readdir(dir, (err, files) => {
-        if (err) {
-            throw err;
-        }
-
-        // files object contains all files names
-        files.forEach(file => {
-          // log them on console
-          console.log(file);
-        });
-    });
+    const files = await fs.readdir(dir);
     
+    // files object contains all files names
+    files.forEach(file => {
+      // log them on console
+      console.log(file);
+    });
+
 
 
 
