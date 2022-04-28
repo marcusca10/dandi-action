@@ -15,7 +15,7 @@ async function run() {
 
 
     const workspace = process.env.GITHUB_WORKSPACE;
-    console.log(`Hello ${workspace}!`);
+    console.log(`Workspace: ${workspace}!`);
     //const dir = `${workspace}`;
 
 
